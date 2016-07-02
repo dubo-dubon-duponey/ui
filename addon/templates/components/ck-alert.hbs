@@ -1,0 +1,11 @@
+{{#if dismissible}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+{{/if}}
+<!--
+XXX links TODO
+<a href="#" class="alert-link">...</a>
+-->
+{{#if title}}
+    <strong>{{title}}</strong>
+{{/if}}
+{{yield}}
