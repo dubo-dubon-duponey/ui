@@ -1,5 +1,6 @@
 // v1
 import Ember from 'ember';
+import layout from '../templates/components/ck-icon';
 
 export default Ember.Component.extend({
   // Public
@@ -19,7 +20,9 @@ export default Ember.Component.extend({
     var c = this.get('collection');
     return c + ' ' + c + '-' + t;
   }),
-  classNameBindings: ['_icon']
+  classNameBindings: ['_icon'],
+
+  layout
 });
 
 // TODO: no support for sr-only right now (<span class="sr-only">Error:</span>)

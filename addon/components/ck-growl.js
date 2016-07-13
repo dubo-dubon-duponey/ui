@@ -1,5 +1,6 @@
 // v1
 import Ember from 'ember';
+import layout from '../templates/components/ck-growl';
 
 export default Ember.Component.extend({
   store: Ember.inject.service('store'),
@@ -11,7 +12,7 @@ export default Ember.Component.extend({
   items: Ember.computed('all.[]', function(){
     var m = this.get('max');
     var d = this.get('all');
-    if(!m)
+    if (!m)
       return d;
     return d.slice(0, m);// length - m, m);
   }),
@@ -22,5 +23,7 @@ export default Ember.Component.extend({
     close: function(item) {
       item.destroyRecord();
     }
-  }
+  },
+
+  layout
 });

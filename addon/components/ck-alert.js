@@ -1,5 +1,7 @@
+/* global $:false */
 // v1
 import Ember from 'ember';
+import layout from '../templates/components/ck-alert';
 
 export default Ember.Component.extend({
   // Whether it's possible to explicitly close the alert
@@ -22,15 +24,17 @@ export default Ember.Component.extend({
   classNameBindings: ['_type', 'dismissible:alert-dismissible'],
 
   didRender: function(){
+    /* eslint no-underscore-dangle:0 */
     this._super(...arguments);
-    if(this.get('destruct'))
+    if (this.get('destruct'))
       Ember.run.later(function() {
         $(this.element).alert('close');
       }.bind(this), this.get('destruct') * 1000);
 
     $(this.element).on('closed.bs.alert', function () {
       this.sendAction();
-    }.bind(this))
+    }.bind(this));
+  },
 
-  }
+  layout
 });

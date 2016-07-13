@@ -1,5 +1,6 @@
 // v1
 import Ember from 'ember';
+import layout from '../templates/components/ck-progress';
 
 export default Ember.Component.extend({
   min: 0,
@@ -23,18 +24,18 @@ export default Ember.Component.extend({
     var mn = this.get('min');
     var mx = this.get('max');
     var dis = this.get('label');
-    var ret = ''
+    var ret = '';
     if (dis)
-      ret = 'min-width: 2em;'
+      ret = 'min-width: 2em;';
     return Ember.String.htmlSafe(ret + 'width: ' + Math.round((Math.max(v, mn) - mn) / (mx - mn) * 100) + '%');
   }),
 
   _label: Ember.computed('value', 'min', 'max', 'percent', 'label', function(){
-    if(!this.get('label'))
+    if (!this.get('label'))
       return '';
     var p = this.get('percent');
     var v = this.get('value');
-    if(!p)
+    if (!p)
       return v;
     var mx = this.get('max');
     return Math.round(v/mx*100) + '%';
@@ -47,7 +48,9 @@ export default Ember.Component.extend({
       this.get('_type');
   }),
 
-  classNames: ['progress']
+  classNames: ['progress'],
+
+  layout
 });
 
 // stacked progress bar TODO: multi progress-bar inside a single widget

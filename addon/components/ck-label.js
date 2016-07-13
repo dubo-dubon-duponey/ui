@@ -1,5 +1,6 @@
 // v1
 import Ember from 'ember';
+import layout from '../templates/components/ck-label';
 
 export default Ember.Component.extend({
   // Public
@@ -15,5 +16,7 @@ export default Ember.Component.extend({
       t = 'default';
     return 'label label-' + t;
   }),
-  classNameBindings: ['_type']
+  classNameBindings: ['_type'],
+
+  layout
 });

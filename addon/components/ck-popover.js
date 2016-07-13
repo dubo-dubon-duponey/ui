@@ -3,6 +3,8 @@
 import Ember from 'ember';
 const { observer, computed } = Ember;
 
+import layout from '../templates/components/ck-popover';
+
 // XXX if the popover is opened, dynamically changing content will not be updated without a reopen
 export default Ember.Component.extend({
   animation: true,
@@ -11,10 +13,12 @@ export default Ember.Component.extend({
   delay: 0,
   html: false,
   placement: 'auto', // top bottom left right auto
-  template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div><div class="popover-content"></div></div></div>',
+  template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div>' +
+    '<div class="popover-content"></div></div></div>',
   title: '',
   triggerAction: 'focus', // click hover focus manual
-  options: computed('animation', 'content', 'delay', 'html', 'placement', 'template', 'title', 'tiggerAction', function() {
+  options: computed('animation', 'content', 'delay', 'html', 'placement', 'template', 'title', 'triggerAction',
+    function() {
     var content = this.get('content');
     var html = this.get('html');
     var cf = this.get('contentFrom');
@@ -36,12 +40,15 @@ export default Ember.Component.extend({
     };
   }),
 
-  changeObserver: observer('animation', 'content', 'delay', 'html', 'placement', 'template', 'title', 'tiggerAction', function() {
-    // Hack on the ass of the flush directly!
-    $(this.element).data('bs.popover').options = this.get('options');
-  }),
+  changeObserver: observer('animation', 'content', 'delay', 'html', 'placement', 'template', 'title', 'triggerAction',
+    function() {
+      // Hack on the ass of the flush directly!
+      $(this.element).data('bs.popover').options = this.get('options');
+    }),
 
   didInsertElement: function(){
     $(this.element).popover(this.get('options'));
-  }
+  },
+
+  layout
 });

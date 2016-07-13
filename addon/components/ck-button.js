@@ -1,5 +1,7 @@
+/* global $:false */
 // v1
 import Ember from 'ember';
+import layout from '../templates/components/ck-button';
 
 // TODO aria-label en cas de contenu vide du button
 export default Ember.Component.extend({
@@ -12,7 +14,7 @@ export default Ember.Component.extend({
   toggleable: false,
   loading: '',
   state: Ember.computed({
-    get: function(key) {
+    get: function(/*key*/) {
       return '';
     },
     set: function(key, value) {
@@ -21,15 +23,14 @@ export default Ember.Component.extend({
     }
   }),
 
-
   _pressed: Ember.computed('toggleable', 'active', function() {
-    if(this.get('toggleable'))
+    if (this.get('toggleable'))
       return this.get('active');
     return undefined;
   }),
 
   _toggle: Ember.computed('toggleable', 'active', function() {
-    if(this.get('toggleable'))
+    if (this.get('toggleable'))
       return 'button';
     return undefined;
   }),
@@ -38,7 +39,8 @@ export default Ember.Component.extend({
   tagName: 'button',
   _typeAttr: 'button',
   _autocomplete: 'off',
-  attributeBindings: ['_autocomplete:autocomplete', '_typeAttr:type', 'disabled', 'label:aria-label', '_toggle:data-toggle', '_pressed:aria-pressed', 'loading:data-loading-text'],
+  attributeBindings: ['_autocomplete:autocomplete', '_typeAttr:type', 'disabled', 'label:aria-label',
+    '_toggle:data-toggle', '_pressed:aria-pressed', 'loading:data-loading-text'],
 
   // Private classes
   classNames: ['btn'],
@@ -52,7 +54,7 @@ export default Ember.Component.extend({
     var t = this.get('size');
     if (!t)
       return '';
-    switch(t){
+    switch (t){
       case 'small':
         t = 'sm';
         break;
@@ -85,7 +87,9 @@ export default Ember.Component.extend({
      this.set('active', !this.get('active'));
      }*/
     // return false;
-  }
+  },
+
+  layout
 });
 
 

@@ -1,5 +1,6 @@
 // v1
 import Ember from 'ember';
+import layout from '../templates/components/ck-badge';
 
 export default Ember.Component.extend({
   // Public
@@ -7,6 +8,8 @@ export default Ember.Component.extend({
 
   // Private
   tagName: 'span',
-  classNames: ['badge']
+  classNames: ['badge'],
+
+  layout
 
 });
