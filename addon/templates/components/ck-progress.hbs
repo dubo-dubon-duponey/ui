@@ -1,7 +1,7 @@
-<div class={{_subClass}} role="progressbar" aria-valuenow={{value}} aria-valuemin={{min}} aria-valuemax={{max}} style={{_style}}>
-  {{#if label}}
-    {{_label}}
-  {{else}}
-      <span class="sr-only">{{label}}</span>
-  {{/if}}
-</div>
+{{#each items as |item|}}
+  {{log item.value}}
+  {{pk-progress-bar max=max min=min
+                    value=item.value
+                    label=item.label percent=item.percent
+                    striped=item.striped active=item.active type=item.type}}
+{{/each}}

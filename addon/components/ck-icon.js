@@ -1,4 +1,3 @@
-// v1
 import Ember from 'ember';
 import layout from '../templates/components/ck-icon';
 

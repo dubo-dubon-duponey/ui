@@ -1,0 +1,21 @@
+{{#if heading}}
+    <div class="panel-heading">
+      {{heading}}
+    </div>
+{{/if}}
+{{#if title}}
+    <div class="panel-heading">
+        <h3 class="panel-title">{{title}}</h3>
+    </div>
+{{/if}}
+
+<div class="panel-body">
+  {{yield}}
+</div>
+<!--
+  <table></table>
+  <ul></ul>
+-->
+{{#if footer}}
+    <div class="panel-footer">{{footer}}</div>
+{{/if}}

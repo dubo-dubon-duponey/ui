@@ -1,26 +1,25 @@
-// v1
+// WARNING note this is dependent on model objects that have a title, message, and optionally:
+// - type that reflects alerts types: success, info, warning, danger (+dark, full)
+// - destructIn to make it disappear
 import Ember from 'ember';
 import layout from '../templates/components/ck-growl';
 
 export default Ember.Component.extend({
-  store: Ember.inject.service('store'),
-
-  all: Ember.computed(function(){
-    return this.get('store').peekAll('alert');
-  }),
-
-  items: Ember.computed('all.[]', function(){
-    var m = this.get('max');
-    var d = this.get('all');
-    if (!m)
-      return d;
-    return d.slice(0, m);// length - m, m);
-  }),
-
+  // Maximum number of items to display at once
   max: 10,
+  model: [],
+
+  items: Ember.computed('model.[]', function(){
+    var m = this.get('max');
+    var d = this.get('model');
+    if (!m || !d)
+      return d;
+    return d.slice(0, m);
+  }),
+
   classNames: ['growl'],
   actions: {
-    close: function(item) {
+    destroy: function(item) {
       item.destroyRecord();
     }
   },

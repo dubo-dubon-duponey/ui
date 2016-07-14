@@ -1,5 +1,5 @@
 {{#each items as |item|}}
-  {{#ck-alert action=(action "close" item) class="fade in" title=item.title type=item.type destruct=item.destruct dismissible=true}}
+  {{#ck-alert action=(action "destroy" item) title=item.title type=item.type destructIn=item.destructIn dismissible=true}}
     {{item.message}}
   {{/ck-alert}}
 {{/each}}

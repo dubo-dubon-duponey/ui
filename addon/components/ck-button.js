@@ -1,27 +1,25 @@
-/* global $:false */
-// v1
 import Ember from 'ember';
 import layout from '../templates/components/ck-button';
 
-// TODO aria-label en cas de contenu vide du button
+// WONTFIX: we don't support states at all.
+// They can very easily be added by making the button content binding to an Ember object
+// We don't support data-toggle either (implemented instead through toggleable + active)
 export default Ember.Component.extend({
-  // Public properties
-  disabled: false,
-  active: false,
-  type: '', // primary, default, link, success, info, warning, danger
-  size: '', // small, large, x-small
-  label: undefined,
+  // Public API
+  // Whether this is a toggleable button
   toggleable: false,
-  loading: '',
-  state: Ember.computed({
-    get: function(/*key*/) {
-      return '';
-    },
-    set: function(key, value) {
-      $(this.element).button(value);
-      return value;
-    }
-  }),
+  // Whether the button is currently disabled
+  disabled: false,
+  // Whether the toggleable button is currently active
+  active: false,
+  // Optional aria-label (good for empty buttons)
+  label: undefined,
+  // Button type
+  type: 'default', // primary, default, link, success, info, warning, danger
+  // Size
+  size: 'large', // small, large, x-small
+  // Whether it's a block 100% width button
+  block: false,
 
   _pressed: Ember.computed('toggleable', 'active', function() {
     if (this.get('toggleable'))
@@ -29,27 +27,24 @@ export default Ember.Component.extend({
     return undefined;
   }),
 
-  _toggle: Ember.computed('toggleable', 'active', function() {
-    if (this.get('toggleable'))
-      return 'button';
-    return undefined;
-  }),
-
   // Private attrs
   tagName: 'button',
   _typeAttr: 'button',
+  // Workaround browser bugs with this
   _autocomplete: 'off',
   attributeBindings: ['_autocomplete:autocomplete', '_typeAttr:type', 'disabled', 'label:aria-label',
-    '_toggle:data-toggle', '_pressed:aria-pressed', 'loading:data-loading-text'],
+    '_pressed:aria-pressed'],
 
   // Private classes
   classNames: ['btn'],
+
   _type: Ember.computed('type', function(){
     var t = this.get('type');
     if (!t)
       return '';
     return 'btn-' + t;
   }),
+
   _size: Ember.computed('size', function(){
     var t = this.get('size');
     if (!t)
@@ -68,33 +63,21 @@ export default Ember.Component.extend({
     }
     return 'btn-' + t;
   }),
-  classNameBindings: ['_type', '_size', 'active'],
 
-  /*  reset: function(){
-   this.set('state', 'reset');
-   },*/
+  _block: Ember.computed('block', function(){
+    var t = this.get('block');
+    if (!t)
+      return '';
+    return 'btn-block';
+  }),
 
-
-  /*
-   toggle: function(){
-   $(this.element).button('toggle');
-   },
-   */
+  classNameBindings: ['_type', '_size', '_block', 'active'],
 
   click: function() {
+    if (this.get('toggleable'))
+      this.set('active', !this.get('active'));
     this.sendAction();
-    /*if(this.get('toggleable')){
-     this.set('active', !this.get('active'));
-     }*/
-    // return false;
   },
 
   layout
 });
-
-
-/*
- <button data-loading-text="Loading...">
- Loading state
- </button>
- */

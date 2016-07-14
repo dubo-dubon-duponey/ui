@@ -1,0 +1,1 @@
+export { default } from 'closerkit/components/pk-progress-bar';

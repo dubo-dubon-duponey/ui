@@ -9,9 +9,16 @@ export default Ember.Component.extend({
   // Type of the alert: success, info, warning, danger (+dark, full)
   type: 'info',
   // Number of seconds before the alert will disappear (will not if 0)
-  destruct: 0,
+  destructIn: 0,
 
-  // Private stuff below
+  classNames: ['alert', 'fade', 'in'],// XXX maybe make fading configurable?
+  ariaRole: 'alert',
+
+  // "dismissible" true will add "alert-dismissible" class
+  // interpolated "_type" will return the right alert class
+  classNameBindings: ['_type', 'dismissible:alert-dismissible'],
+
+  // Private computed class
   _type: Ember.computed('type', function(){
     var t = this.get('type');
     if (!t)
@@ -19,21 +26,29 @@ export default Ember.Component.extend({
     return 'alert-' + t;
   }),
 
-  classNames: ['alert'],
-  ariaRole: 'alert',
-  classNameBindings: ['_type', 'dismissible:alert-dismissible'],
-
-  didRender: function(){
+  didInsertElement: function(){
     /* eslint no-underscore-dangle:0 */
     this._super(...arguments);
-    if (this.get('destruct'))
+    // Set a timebomb if we are told to do so
+    if (this.get('destructIn'))
       Ember.run.later(function() {
         $(this.element).alert('close');
-      }.bind(this), this.get('destruct') * 1000);
+      }.bind(this), this.get('destructIn') * 1000);
 
+    // Send action when the close completes (will avoid competing re-render when models are updated with fade here)
     $(this.element).on('closed.bs.alert', function () {
       this.sendAction();
     }.bind(this));
+  },
+
+  // Ensure links are styled
+  didRender: function(){
+    /* eslint no-underscore-dangle:0 */
+    this._super(...arguments);
+    $('a', $(this.element)).each(function(idx, anchor){
+      if (!$(anchor).hasClass('alert-link'))
+        $(anchor).addClass('alert-link');
+    });
   },
 
   layout
