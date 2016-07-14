@@ -63,7 +63,7 @@ export default Ember.Component.extend({
     ok: function(){
       this.set('show', false);
       this.sendAction('ok');
-    },
+    }
   },
 
   layout

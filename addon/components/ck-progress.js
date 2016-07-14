@@ -18,7 +18,7 @@ export default Ember.Component.extend({
   items: null,
 
   didInsertElement: function(){
-    /* eslint no-underscore-dangling:0 */
+    /* eslint no-underscore-dangle:0 */
     this._super(...arguments);
     if (!this.get('items'))
       this.set('items', [this]);
