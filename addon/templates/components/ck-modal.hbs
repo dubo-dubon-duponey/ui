@@ -1,36 +1,21 @@
-{{yield}}
-
-$('#myModal').modal(options)
-backdrop true false "static"
-keyboard
-show
-
-$('#myModal').modal('toggle')
-$('#myModal').modal('show')
-$('#myModal').modal('hide')
-$('#myModal').modal('handleUpdate')
-
-
 <div class="modal-dialog {{_size}}" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="{{_labelledBy}}">{{title}}</h4>
+          {{#ck-button class="close" label="Close" action=cancel}}
+              <span aria-hidden="true">&times;</span>
+          {{/ck-button}}
+            <h4 class="modal-title" {{bindAttr id=_labelledBy}}>{{title}}</h4>
         </div>
         <div {{bindAttr id=ariaDescribedby}} class="modal-body">
             <p>{{yield}}{{{content}}}</p>
         </div>
         <div class="modal-footer">
           {{#if cancel}}
-              <button type="button" class="btn btn-default" data-dismiss="modal">{{cancel}}</button>
+            {{#ck-button action="cancel" type="danger"}}{{cancel}}{{/ck-button}}
           {{/if}}
-            <button type="button" class="btn btn-primary">{{ok}}</button>
+          {{#if ok}}
+            {{#ck-button action="ok" type="success"}}{{ok}}{{/ck-button}}
+          {{/if}}
         </div>
     </div>
 </div>
-
-
-
-
-
-

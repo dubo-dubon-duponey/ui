@@ -1,4 +1,7 @@
+/* global $:false */
 import Ember from 'ember';
+const {observer} = Ember;
+import layout from '../templates/components/ck-modal';
 
 var uid = 0;
 
@@ -7,19 +10,19 @@ export default Ember.Component.extend({
   ariaRole: 'dialog',
   tabindex: '-1',
   classNames: ['modal'],
-  classNameBindings: ['fade', '_size'],
+  classNameBindings: ['fade'],
   attributeBindings: ['_labelledBy:aria-labelledby', 'tabindex', '_describedBy:aria-describedby'],
   _labelledBy: 'modalLabelledByUID-' + uid,
   _describedBy: 'modalDescribedByUID-' + uid,
   _size: Ember.computed('size', function(){
-    if(!size)
+    if (!this.get('size'))
       return '';
-    return 'modal-' + (size == 'small' ? 'sm' : 'lg');
+    return 'modal-' + (this.get('size') === 'small' ? 'sm' : 'lg');
   }),
 
 
-  // Wether to fade-in / out or not
   title: '',
+  // Wether to fade-in / out or not
   fade: true,
   size: null, // small, large
 
@@ -28,15 +31,21 @@ export default Ember.Component.extend({
   // Content can be yield alternatively
   content: null,
 
-  // Includes a modal-backdrop element. Alternatively, specify static for a backdrop which doesn't close the modal on click.
+  // Includes a modal-backdrop element. Alternatively, specify static for a backdrop which doesn't
+  // close the modal on click.
   backdrop: true, // true, false, static
   // Closes the modal when escape key is pressed, or not
   keyboard: true,
   // Shows the modal when initialized, or not
   show: true,
 
+  changeObserver: observer('show', function(){
+    $(this.element).modal(this.get('show') ? 'show' : 'hide');
+  }),
+
   didInsertElement: function(){
-    this._super();
+    /* eslint no-underscore-dangle:0 */
+    this._super(...arguments);
     uid++;
     // Init the modal itself
     $(this.element).modal({
@@ -44,8 +53,20 @@ export default Ember.Component.extend({
       keyboard: this.get('keyboard'),
       show: this.get('show')
     });
+  },
 
-  }
+  actions: {
+    cancel: function(){
+      this.set('show', false);
+      this.sendAction('cancel');
+    },
+    ok: function(){
+      this.set('show', false);
+      this.sendAction('ok');
+    },
+  },
+
+  layout
 
 //  id: '',
 //  ariaHidden: true,
