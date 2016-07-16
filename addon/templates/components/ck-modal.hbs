@@ -1,7 +1,7 @@
 <div class="modal-dialog {{_size}}" role="document">
     <div class="modal-content">
         <div class="modal-header">
-          {{#ck-button class="close" label="Close" action=cancel}}
+          {{#ck-button class="close" label="Close" action="cancel"}}
               <span aria-hidden="true">&times;</span>
           {{/ck-button}}
             <h4 class="modal-title" {{bindAttr id=_labelledBy}}>{{title}}</h4>
@@ -11,10 +11,10 @@
         </div>
         <div class="modal-footer">
           {{#if cancel}}
-            {{#ck-button action="cancel" type="danger"}}{{cancel}}{{/ck-button}}
+            {{#ck-button rel="ck-cancel" action="cancel" type="danger"}}{{cancel}}{{/ck-button}}
           {{/if}}
           {{#if ok}}
-            {{#ck-button action="ok" type="success"}}{{ok}}{{/ck-button}}
+            {{#ck-button rel="ck-ok" action="ok" type="success"}}{{ok}}{{/ck-button}}
           {{/if}}
         </div>
     </div>

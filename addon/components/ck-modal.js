@@ -5,6 +5,9 @@ import layout from '../templates/components/ck-modal';
 
 var uid = 0;
 
+const RETURN_KEY = 13;
+const ESCAPE_KEY = 27;
+
 export default Ember.Component.extend({
   tagName: 'div',
   ariaRole: 'dialog',
@@ -19,7 +22,6 @@ export default Ember.Component.extend({
       return '';
     return 'modal-' + (this.get('size') === 'small' ? 'sm' : 'lg');
   }),
-
 
   title: '',
   // Wether to fade-in / out or not
@@ -50,9 +52,52 @@ export default Ember.Component.extend({
     // Init the modal itself
     $(this.element).modal({
       backdrop: this.get('backdrop'),
-      keyboard: this.get('keyboard'),
+      keyboard: false,
       show: this.get('show')
     });
+  },
+
+  keyDown: function(e) {
+    if (!this.get('keyboard'))
+      return;
+    var code = e.keyCode || e.which;
+    if (code === RETURN_KEY) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('[rel=ck-ok]', this.element).trigger('click');
+    }
+    if(code === ESCAPE_KEY) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('[rel=ck-cancel]', this.element).trigger('click');
+    }
+  },
+
+  // Due to the late insertion mechanism, we can't use Ember click handlers
+  mouseDown: function(e) {
+    if (!this.get('backdrop'))
+      return;
+    if (e.target === this.element) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  },
+  mouseUp: function(e) {
+    if (!this.get('backdrop'))
+      return;
+    if (e.target === this.element) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  },
+  click: function(e) {
+    if (!this.get('backdrop'))
+      return;
+    if (e.target === this.element){
+      $('[rel=ck-cancel]', this.element).trigger('click');
+      e.preventDefault();
+      e.stopPropagation();
+    }
   },
 
   actions: {
@@ -75,43 +120,8 @@ export default Ember.Component.extend({
 });
 
 /*
-
- this.Modal = Ember.View.extend(Ember.DeferredMixin, {
-
-
  // Aria description ftw
  ariaDescribedby: false,
-
- // Might be, but not neccessarily
- id: null,
- layout: Ember.Handlebars.compile('  <div class="modal-dialog">\
- <div class="modal-content">\
- <div class="modal-header">\
- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
- <h4 {{bindAttr id=view.ariaLabelledby}} class="modal-title">{{view.title}}</h4>\
- </div>\
- <div {{bindAttr id=view.ariaDescribedby}} class="modal-body">\
- {{yield}}{{{view.content}}}\
- </div>\
- <div class="modal-footer">\
- {{#if view.cancel}}\
- <button type="button" class="btn btn-default" data-dismiss="modal">{{view.cancel}}</button>\
- {{/if}}\
- <button type="button" class="btn btn-primary" rel="emstrap-modal-primary">{{view.ok}}</button>\
- </div>\
- </div>\
- </div>'),
-
- defaultTemplate: Ember.Handlebars.compile(''),
-
- keyPress: function(e){
- var code = e.keyCode || e.which;
- if(code == 13) {
- this.$('[rel=emstrap-modal-primary]').trigger('click');
- e.preventDefault();
- e.stopPropagation();
- }
- },
 
  didInsertElement: function(){
  this._super();
@@ -197,14 +207,6 @@ export default Ember.Component.extend({
  // });
  }
 
- // Due to the late insertion mechanism, we can't use Ember click handlers
- // click: function(event) {
- //   if (event.target.getAttribute('rel') == 'emstrap-modal-primary') {
- //     this.set('confirmed', true);
- //     this.$().modal('hide');
- //   }
- // },
- });
 
  this.Modal.reopenClass({
  pop: function(options) {
