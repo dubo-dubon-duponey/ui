@@ -32,8 +32,14 @@ export default Ember.Component.extend({
   _typeAttr: 'button',
   // Workaround browser bugs with this
   _autocomplete: 'off',
-  attributeBindings: ['_autocomplete:autocomplete', '_typeAttr:type', 'disabled', 'label:aria-label',
-    '_pressed:aria-pressed'],
+  attributeBindings: [
+    '_autocomplete:autocomplete',
+    '_typeAttr:type',
+    'disabled',
+    'label:aria-label',
+    '_pressed:aria-pressed',
+    'rel'
+  ],
 
   // Private classes
   classNames: ['btn'],
