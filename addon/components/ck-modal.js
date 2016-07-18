@@ -66,7 +66,7 @@ export default Ember.Component.extend({
       e.stopPropagation();
       $('[rel=ck-ok]', this.element).trigger('click');
     }
-    if(code === ESCAPE_KEY) {
+    if (code === ESCAPE_KEY) {
       e.preventDefault();
       e.stopPropagation();
       $('[rel=ck-cancel]', this.element).trigger('click');
