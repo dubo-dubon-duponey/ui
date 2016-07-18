@@ -61,6 +61,9 @@ export default Ember.Component.extend({
     if (!this.get('keyboard'))
       return;
     var code = e.keyCode || e.which;
+    // Don't act if it's a textarea
+    if (e.target.nodeName.toLowerCase() === 'textarea')
+      return;
     if (code === RETURN_KEY) {
       e.preventDefault();
       e.stopPropagation();
